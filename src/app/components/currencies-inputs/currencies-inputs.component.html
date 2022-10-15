@@ -1,15 +1,17 @@
-<form [formGroup]="form">
+<form [formGroup]="firstForm">
   <div class="input">
-    <div>baseCurrency : <input type="text" formControlName="baseCurrency"></div>
-    <div><select formControlName="selectBase">
+    <div>baseCurrency : <input type="text" formControlName="input" (change)="convert(true)"></div>
+    <div><select formControlName="select" (change)="convert(true)">
       <option>UAH</option>
       <option>EUR</option>
       <option>USD</option>
     </select></div>
   </div>
+</form>
+<form [formGroup]="secondForm">
   <div class="input">
-    <div>convertTo: <input type="text" formControlName="convertTo"></div>
-    <div><select formControlName="selectConvert">
+    <div>convertTo: <input type="text" formControlName="input" (change)="convert(false)"></div>
+    <div><select formControlName="select" (change)="convert(false)">
       <option>UAH</option>
       <option>EUR</option>
       <option>USD</option>

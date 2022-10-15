@@ -10,27 +10,78 @@ import {DataService} from "../../services/data.service";
 })
 export class CurrenciesInputsComponent implements OnInit {
 
-  currencies: ICurrency[];
-  form: FormGroup;
+  USD: ICurrency
+  EUR: ICurrency;
+  firstForm: FormGroup;
+  secondForm: FormGroup;
 
   constructor(private dataService: DataService) {
-    this._createForm()
+    this._createFirstForm()
+    this._createSecondForm()
   }
 
   ngOnInit(): void {
     this.dataService.storage.subscribe(value => {
-      this.currencies = value
+      this.USD = value[0];
+      this.EUR = value[1];
     })
   }
 
-  _createForm(): void {
-    this.form = new FormGroup({
-      baseCurrency: new FormControl(),
-      selectBase: new FormControl('USD'),
-      convertTo: new FormControl(),
-      selectConvert: new FormControl('UAH'),
-
+  _createFirstForm(): void {
+    this.firstForm = new FormGroup({
+      input: new FormControl(),
+      select: new FormControl('USD'),
     })
   }
+
+  _createSecondForm(): void {
+    this.secondForm = new FormGroup({
+      input: new FormControl(),
+      select: new FormControl('UAH'),
+    })
+  }
+
+  convert(direction: boolean) {
+    const firs = this.firstForm.getRawValue();
+    const second = this.secondForm.getRawValue();
+    if (direction) {
+      if (firs.select === 'USD' && second.select === 'UAH') {
+        this.secondForm.setValue({
+          input: firs.input * this.USD.sale,
+          select: 'UAH',
+        })
+      } else if (firs.select === 'EUR' && second.select === 'UAH') {
+        this.secondForm.setValue({
+          input: firs.input * this.EUR.sale,
+          select: 'UAH',
+        })
+      } else if (firs.select === 'UAH' && second.select === 'UAH') {
+        this.secondForm.setValue({
+          input: firs.input,
+          select: 'UAH',
+        })
+      }
+    } else if (!direction) {
+      if (firs.select === 'USD' && second.select === 'UAH') {
+        this.firstForm.setValue({
+          input: second.input / this.USD.sale,
+          select: 'USD',
+        })
+      } else if (firs.select === 'EUR' && second.select === 'UAH') {
+        this.firstForm.setValue({
+          input: second.input / this.EUR.sale,
+          select: 'UAH',
+        })
+      } else if (firs.select === 'UAH' && second.select === 'UAH') {
+        this.firstForm.setValue({
+          input: second.input,
+          select: 'UAH',
+        })
+      }
+    }
+
+
+  }
+
 
 }

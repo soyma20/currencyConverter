@@ -17,9 +17,10 @@ export class CurrenciesComponent implements OnInit {
 
   ngOnInit(): void {
     this.service.getCurrencies().subscribe(value => {
-      this.currencies = value
-      this.dataService.storage.next(value)
-      console.log(value)
+      const filter = value.filter((value1) => value1.base_ccy =="UAH");
+      this.currencies = filter
+      this.dataService.storage.next(filter)
+      console.log(filter)
     })
   }
 
