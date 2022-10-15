@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import {CurrencyService} from "../../services/currency.service";
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup} from "@angular/forms";
 import {ICurrency} from "../../interfaces/ICurrency";
+import {DataService} from "../../services/data.service";
 
 @Component({
   selector: 'app-currencies-inputs',
@@ -9,14 +10,27 @@ import {ICurrency} from "../../interfaces/ICurrency";
 })
 export class CurrenciesInputsComponent implements OnInit {
 
-  private currency :ICurrency;
+  currencies: ICurrency[];
+  form: FormGroup;
 
-  constructor(private service:CurrencyService) { }
-
-
-  ngOnInit(): void {
-    this.service.getCurrencies().subscribe(value => console.log(value))
+  constructor(private dataService: DataService) {
+    this._createForm()
   }
 
+  ngOnInit(): void {
+    this.dataService.storage.subscribe(value => {
+      this.currencies = value
+    })
+  }
+
+  _createForm(): void {
+    this.form = new FormGroup({
+      baseCurrency: new FormControl(),
+      selectBase: new FormControl('USD'),
+      convertTo: new FormControl(),
+      selectConvert: new FormControl('UAH'),
+
+    })
+  }
 
 }

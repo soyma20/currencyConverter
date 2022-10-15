@@ -1,15 +1,18 @@
-
-<form>
-  <input type="text">
-  <select>
-    <option>USD</option>
-    <option>EUR</option>
-  </select>
-</form>
-<form>
-  <input type="text">
-  <select>
-    <option>USD</option>
-    <option>EUR</option>
-  </select>
+<form [formGroup]="form">
+  <div class="input">
+    <div>baseCurrency : <input type="text" formControlName="baseCurrency"></div>
+    <div><select formControlName="selectBase">
+      <option>UAH</option>
+      <option>EUR</option>
+      <option>USD</option>
+    </select></div>
+  </div>
+  <div class="input">
+    <div>convertTo: <input type="text" formControlName="convertTo"></div>
+    <div><select formControlName="selectConvert">
+      <option>UAH</option>
+      <option>EUR</option>
+      <option>USD</option>
+    </select></div>
+  </div>
 </form>
