@@ -20,7 +20,6 @@ export class CurrenciesComponent implements OnInit {
       const filter = value.filter((value1) => value1.base_ccy =="UAH");
       this.currencies = filter
       this.dataService.storage.next(filter)
-      console.log(filter)
     })
   }
 
