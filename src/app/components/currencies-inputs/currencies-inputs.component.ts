@@ -34,14 +34,14 @@ export class CurrenciesInputsComponent implements OnInit {
 
   _createFirstForm(): void {
     this.firstForm = new FormGroup({
-      input: new FormControl(),
+      input: new FormControl(0),
       select: new FormControl(),
     })
   }
 
   _createSecondForm(): void {
     this.secondForm = new FormGroup({
-      input: new FormControl(),
+      input: new FormControl(0),
       select: new FormControl(),
     })
   }
@@ -88,7 +88,6 @@ export class CurrenciesInputsComponent implements OnInit {
     this.toValue = this.fromValue * (from.rate / to.rate);
     this.secondForm.setValue({
       input: this.toValue,
-      // @ts-ignore
       select: to.r030
     })
   }
