@@ -20,13 +20,12 @@ export class CurrenciesInputsComponent implements OnInit {
   fromValue: number;
   toValue: number;
 
-
   constructor(private dataService: DataService) {
-    this._createFirstForm();
-    this._createSecondForm();
   }
 
   ngOnInit(): void {
+    this._createFirstForm();
+    this._createSecondForm();
     this.dataService.storage.subscribe(value => {
       value.push(this.hryvnia);
       this.currencies = value;
@@ -47,52 +46,45 @@ export class CurrenciesInputsComponent implements OnInit {
     })
   }
 
-  convertFromValue(event: Event) {
+  convertFromValue(event: Event): void {
     this.fromValue = +(event.target as HTMLInputElement).value
-    const from = this.currencies.find(value => value.r030 === this.fromCurrency);
-    const to = this.currencies.find(value => value.r030 === this.toCurrency);
-    // @ts-ignore
+    const to = this.currencies.find(value => value.r030 === this.toCurrency) as ICurrency;
+    const from = this.currencies.find(value => value.r030 === this.fromCurrency) as ICurrency;
     this.toValue = this.fromValue * (from.rate / to.rate);
-      this.secondForm.setValue({
-        input: this.toValue,
-        // @ts-ignore
-        select: to.r030
-      })
+    this.secondForm.setValue({
+      input: this.toValue,
+      select: to.r030
+    })
   }
+
 
 
   convertToValue(event: Event) {
     this.toValue = +(event.target as HTMLInputElement).value
-    const to = this.currencies.find(value => value.r030 === this.toCurrency);
-    const from = this.currencies.find(value => value.r030 === this.fromCurrency);
-    // @ts-ignore
-    this.fromValue = this.toValue * (to.rate /from.rate);
+    const to = this.currencies.find(value => value.r030 === this.toCurrency) as ICurrency;
+    const from = this.currencies.find(value => value.r030 === this.fromCurrency) as ICurrency;
+    this.fromValue = this.toValue * (to.rate / from.rate);
     this.firstForm.setValue({
       input: this.fromValue,
-      // @ts-ignore
       select: from.r030
     })
   }
 
   convertFromCurrency(event: Event) {
     this.fromCurrency = +(event.target as HTMLInputElement).value
-    const from = this.currencies.find(value => value.r030 === this.fromCurrency);
-    const to = this.currencies.find(value => value.r030 === this.toCurrency);
-    // @ts-ignore
+    const to = this.currencies.find(value => value.r030 === this.toCurrency) as ICurrency;
+    const from = this.currencies.find(value => value.r030 === this.fromCurrency) as ICurrency;
     this.toValue = this.fromValue * (from.rate / to.rate);
     this.secondForm.setValue({
       input: this.toValue,
-      // @ts-ignore
       select: to.r030
     })
   }
 
-
   convertToCurrency(event: Event) {
     this.toCurrency = +(event.target as HTMLInputElement).value
-    const from = this.currencies.find(value => value.r030 === this.fromCurrency);
-    const to = this.currencies.find(value => value.r030 === this.toCurrency);
-    // @ts-ignore
+    const to = this.currencies.find(value => value.r030 === this.toCurrency) as ICurrency;
+    const from = this.currencies.find(value => value.r030 === this.fromCurrency) as ICurrency;
     this.toValue = this.fromValue * (from.rate / to.rate);
     this.secondForm.setValue({
       input: this.toValue,
