@@ -46,8 +46,7 @@ export class CurrenciesInputsComponent implements OnInit {
     })
   }
 
-  convertFromValue(event: Event): void {
-    this.fromValue = +(event.target as HTMLInputElement).value
+  convert():void{
     const to = this.currencies.find(value => value.r030 === this.toCurrency) as ICurrency;
     const from = this.currencies.find(value => value.r030 === this.fromCurrency) as ICurrency;
     this.toValue = this.fromValue * (from.rate / to.rate);
@@ -57,7 +56,10 @@ export class CurrenciesInputsComponent implements OnInit {
     })
   }
 
-
+  convertFromValue(event: Event): void {
+    this.fromValue = +(event.target as HTMLInputElement).value
+    this.convert()
+  }
 
   convertToValue(event: Event) {
     this.toValue = +(event.target as HTMLInputElement).value
@@ -72,23 +74,11 @@ export class CurrenciesInputsComponent implements OnInit {
 
   convertFromCurrency(event: Event) {
     this.fromCurrency = +(event.target as HTMLInputElement).value
-    const to = this.currencies.find(value => value.r030 === this.toCurrency) as ICurrency;
-    const from = this.currencies.find(value => value.r030 === this.fromCurrency) as ICurrency;
-    this.toValue = this.fromValue * (from.rate / to.rate);
-    this.secondForm.setValue({
-      input: this.toValue,
-      select: to.r030
-    })
+    this.convert()
   }
 
   convertToCurrency(event: Event) {
     this.toCurrency = +(event.target as HTMLInputElement).value
-    const to = this.currencies.find(value => value.r030 === this.toCurrency) as ICurrency;
-    const from = this.currencies.find(value => value.r030 === this.fromCurrency) as ICurrency;
-    this.toValue = this.fromValue * (from.rate / to.rate);
-    this.secondForm.setValue({
-      input: this.toValue,
-      select: to.r030
-    })
+    this.convert()
   }
 }
