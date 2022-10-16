@@ -5,8 +5,8 @@ import {AppComponent} from './app.component';
 import {HttpClientModule} from "@angular/common/http";
 import {CurrenciesInputsComponent} from './components/currencies-inputs/currencies-inputs.component';
 import {ReactiveFormsModule} from "@angular/forms";
-import { CurrencyComponent } from './components/currency/currency.component';
-import { CurrenciesComponent } from './components/currencies/currencies.component';
+import {CurrencyComponent} from './components/currency/currency.component';
+import {CurrenciesComponent} from './components/currencies/currencies.component';
 
 @NgModule({
   declarations: [

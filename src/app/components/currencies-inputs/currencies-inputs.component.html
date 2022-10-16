@@ -1,20 +1,18 @@
-<form [formGroup]="firstForm">
-  <div class="input">
-    <div>buy : <input type="text" formControlName="input" (change)="convert(true)"></div>
-    <div><select formControlName="select" (change)="convert(true)">
-      <option>UAH</option>
-      <option>EUR</option>
-      <option>USD</option>
-    </select></div>
-  </div>
-</form>
-<form [formGroup]="secondForm">
-  <div class="input">
-    <div>sale: <input type="text" formControlName="input" (change)="convert(false)"></div>
-    <div><select formControlName="select" (change)="convert(false)">
-      <option>UAH</option>
-      <option>EUR</option>
-      <option>USD</option>
-    </select></div>
-  </div>
-</form>
+<div id="container">
+  <form [formGroup]="firstForm">
+    <input type="number" formControlName="input" (change)="convertFromValue($event)">
+    <select [(ngModel)]="fromCurrency" formControlName="select" (change)="convertFromCurrency($event)">
+      <option *ngFor="let currency of currencies" [value]="currency.r030">
+        {{currency.txt}}
+      </option>
+    </select>
+  </form>
+  <form [formGroup]="secondForm">
+    <input type="number" formControlName="input" (change)="convertToValue($event)">
+    <select [(ngModel)]="toCurrency" formControlName="select" (change)="convertToCurrency($event)">
+      <option *ngFor="let curr of currencies" [value]="curr.r030">
+        {{curr.txt}}
+      </option>
+    </select>
+  </form>
+</div>

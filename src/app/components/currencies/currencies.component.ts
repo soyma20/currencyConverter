@@ -17,9 +17,9 @@ export class CurrenciesComponent implements OnInit {
 
   ngOnInit(): void {
     this.service.getCurrencies().subscribe(value => {
-      const filter = value.filter((value1) => value1.base_ccy =="UAH");
-      this.currencies = filter
-      this.dataService.storage.next(filter)
+      const iCurrencies = value.filter((value1) => value1.cc === 'USD' || value1.cc === 'EUR');
+      this.currencies = iCurrencies
+      this.dataService.storage.next(value)
     })
   }
 

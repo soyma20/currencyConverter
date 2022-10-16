@@ -11,108 +11,93 @@ import {DataService} from "../../services/data.service";
 })
 export class CurrenciesInputsComponent implements OnInit {
 
-  USD: ICurrency
-  EUR: ICurrency;
+  hryvnia: ICurrency = {r030: 1, txt: "Гривня", rate: 1, cc: "UAH", exchangedate: ""}
+  currencies: ICurrency[];
   firstForm: FormGroup;
   secondForm: FormGroup;
+  fromCurrency: number = 1;
+  toCurrency: number = 840;
+  fromValue: number;
+  toValue: number;
+
 
   constructor(private dataService: DataService) {
-    this._createFirstForm()
-    this._createSecondForm()
+    this._createFirstForm();
+    this._createSecondForm();
   }
 
   ngOnInit(): void {
     this.dataService.storage.subscribe(value => {
-      this.USD = value[0];
-      this.EUR = value[1];
+      value.push(this.hryvnia);
+      this.currencies = value;
     })
   }
 
   _createFirstForm(): void {
     this.firstForm = new FormGroup({
       input: new FormControl(),
-      select: new FormControl('USD'),
+      select: new FormControl(),
     })
   }
 
   _createSecondForm(): void {
     this.secondForm = new FormGroup({
       input: new FormControl(),
-      select: new FormControl('UAH'),
+      select: new FormControl(),
     })
   }
 
-  convert(direction: boolean) {
-    const firs = this.firstForm.getRawValue();
-    const second = this.secondForm.getRawValue();
-    if (direction) {
-      if (firs.select === 'USD' && second.select === 'UAH') {
-        this.secondForm.setValue({
-          input: Math.round(firs.input * this.USD.buy),
-          select: 'UAH',
-        })
-      } else if (firs.select === 'EUR' && second.select === 'UAH') {
-        this.secondForm.setValue({
-          input: Math.round(firs.input * this.EUR.buy),
-          select: 'UAH',
-        })
-      } else if (firs.select === 'UAH' && second.select === 'EUR'){
-        this.secondForm.setValue({
-          input: Math.round(firs.input / this.EUR.sale),
-          select: 'EUR',
-        })
-      }else if (firs.select === 'UAH' && second.select === 'USD'){
-        this.secondForm.setValue({
-          input: Math.round(firs.input / this.USD.sale),
-          select: 'USD',
-        })
-      }else if (firs.select === 'UAH' && second.select === 'UAH'){
-        this.secondForm.setValue({
-          input: 0,
-          select: 'USD',
-        })
-      } else {
-        this.secondForm.setValue({
-          input: 'We work only with hryvnia',
-          select: 'UAH',
-        })
-      }
-    } else if (!direction) {
-      if (firs.select === 'USD' && second.select === 'UAH') {
-        this.firstForm.setValue({
-          input: Math.round(second.input / this.USD.sale) ,
-          select: 'USD',
-        })
-      } else if (firs.select === 'EUR' && second.select === 'UAH') {
-        this.firstForm.setValue({
-          input: Math.round(second.input / this.EUR.sale) ,
-          select: 'EUR',
-        })
-      }else if (firs.select === 'UAH' && second.select === 'EUR'){
-        this.firstForm.setValue({
-          input: Math.round(second.input * this.EUR.buy),
-          select: 'UAH',
-        })
-      }else if (firs.select === 'UAH' && second.select === 'USD'){
-        this.firstForm.setValue({
-          input: Math.round(second.input * this.USD.buy),
-          select: 'UAH',
-        })
-      }else if (firs.select === 'UAH' && second.select === 'UAH'){
-        this.firstForm.setValue({
-          input: 0,
-          select: 'USD',
-        })
-      } else {
-        this.secondForm.setValue({
-          input: 'We work only with hryvnia',
-          select: 'UAH',
-        })
-      }
-
-    }
-
+  convertFromValue(event: Event) {
+    this.fromValue = +(event.target as HTMLInputElement).value
+    const from = this.currencies.find(value => value.r030 === this.fromCurrency);
+    const to = this.currencies.find(value => value.r030 === this.toCurrency);
+    // @ts-ignore
+    this.toValue = this.fromValue * (from.rate / to.rate);
+      this.secondForm.setValue({
+        input: this.toValue,
+        // @ts-ignore
+        select: to.r030
+      })
   }
 
 
+  convertToValue(event: Event) {
+    this.toValue = +(event.target as HTMLInputElement).value
+    const to = this.currencies.find(value => value.r030 === this.toCurrency);
+    const from = this.currencies.find(value => value.r030 === this.fromCurrency);
+    // @ts-ignore
+    this.fromValue = this.toValue * (to.rate /from.rate);
+    this.firstForm.setValue({
+      input: this.fromValue,
+      // @ts-ignore
+      select: from.r030
+    })
+  }
+
+  convertFromCurrency(event: Event) {
+    this.fromCurrency = +(event.target as HTMLInputElement).value
+    const from = this.currencies.find(value => value.r030 === this.fromCurrency);
+    const to = this.currencies.find(value => value.r030 === this.toCurrency);
+    // @ts-ignore
+    this.toValue = this.fromValue * (from.rate / to.rate);
+    this.secondForm.setValue({
+      input: this.toValue,
+      // @ts-ignore
+      select: to.r030
+    })
+  }
+
+
+  convertToCurrency(event: Event) {
+    this.toCurrency = +(event.target as HTMLInputElement).value
+    const from = this.currencies.find(value => value.r030 === this.fromCurrency);
+    const to = this.currencies.find(value => value.r030 === this.toCurrency);
+    // @ts-ignore
+    this.toValue = this.fromValue * (from.rate / to.rate);
+    this.secondForm.setValue({
+      input: this.toValue,
+      // @ts-ignore
+      select: to.r030
+    })
+  }
 }

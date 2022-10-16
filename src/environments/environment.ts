@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  API:'https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5'
+  API:'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json'
 };
 
 /*
