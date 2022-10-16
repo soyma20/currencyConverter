@@ -1,0 +1,18 @@
+<div id="container">
+  <form [formGroup]="firstForm">
+    <input type="number" formControlName="input" (input)="convertFromValue($event)">
+    <select [(ngModel)]="fromCurrency" formControlName="select" (change)="convertFromCurrency($event)">
+      <option *ngFor="let currency of currencies" [value]="currency.r030">
+        {{currency.txt}}
+      </option>
+    </select>
+  </form>
+  <form [formGroup]="secondForm">
+    <input type="number" formControlName="input" (input)="convertToValue($event)">
+    <select [(ngModel)]="toCurrency" formControlName="select" (change)="convertToCurrency($event)">
+      <option *ngFor="let curr of currencies" [value]="curr.r030">
+        {{curr.txt}}
+      </option>
+    </select>
+  </form>
+</div>
