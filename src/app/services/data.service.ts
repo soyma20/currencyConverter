@@ -9,6 +9,4 @@ import {ICurrency} from "../interfaces/ICurrency";
 export class DataService {
 
   storage= new BehaviorSubject<ICurrency[]>([])
-
-  constructor() { }
 }
