@@ -55,14 +55,14 @@ export class CurrenciesInputsComponent implements OnInit {
     if (direction) {
       this.toValue = this.fromValue * (from.rate / to.rate);
       this.secondForm.setValue({
-        input: this.toValue,
+        input: this.toValue.toFixed(2),
         select: to.r030
       })
     } else if (!direction) {
       this.toValue = +this.secondForm.getRawValue().input;
       this.fromValue = this.toValue * (to.rate / from.rate);
       this.firstForm.setValue({
-        input: this.fromValue,
+        input: this.fromValue.toFixed(2),
         select: from.r030
       })
     }
