@@ -3,7 +3,7 @@
     <input type="number" formControlName="input" (input)="convert(true)">
     <select [(ngModel)]="fromCurrency" formControlName="select" (change)="convert(true)">
       <option *ngFor="let currency of currencies" [value]="currency.r030">
-        {{currency.txt}}
+        {{currency.cc}}
       </option>
     </select>
   </form>
@@ -11,7 +11,7 @@
     <input type="number" formControlName="input" (input)="convert(false)">
     <select [(ngModel)]="toCurrency" formControlName="select" (change)="convert(true)">
       <option *ngFor="let curr of currencies" [value]="curr.r030">
-        {{curr.txt}}
+        {{curr.cc}}
       </option>
     </select>
   </form>
